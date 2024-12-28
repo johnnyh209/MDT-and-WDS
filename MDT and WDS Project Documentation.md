@@ -2,12 +2,13 @@
 
 Hyper-V will be the base technology used for this project. I have first set up two separate virtual switches: one external virtual switch that binds this virtual machine to my host machine's physical network card for easy access to the network, and a private virtual switch (the use for this which will be explained later). I have also created a virtual machine (VM) with Windows Server 2022 installed.
 
-This Windows Server 2022 VM (which I have given it the hostname of WinServer 2022) will become my domain controller for my domain, ARASAKA.local, with Active Directory set up.<br/>
+This Windows Server 2022 VM (which I have given it the hostname of WinServer 2022) will become my Domain Controller for my domain, ARASAKA.local, with Active Directory set up.<br/>
 <img src="https://github.com/user-attachments/assets/bbcbda96-9529-43ea-b465-e8d4356d9784" Width="700" /> <br/>
 
 Through Server Manager, I have also installed Windows Deployment Services and DHCP (which will be set up later). Since I have this Windows Server VM connected to the external virtual switch, I went ahead and downloaded the necessary files to set up Microsoft Deployment Toolkit (MDT):
 - [The MDT installation package](https://www.microsoft.com/en-us/download/details.aspx?id=54259)
 - [ADK for Windows 10, version 1903](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install)
+- 7-Zip (which will be added to the Windows installation image that we will generate using MDT so that it can be installed during imaging)
 
 # Microsoft Deployment Toolkit (MDT) Setup
 
@@ -74,3 +75,28 @@ Installing Windows Assessment and Deployment Kit Windows Preinstallation Environ
 6. Close the installer once installation has finished. <br/>
 <img src="https://github.com/user-attachments/assets/a7539422-1de2-4fee-a0ef-671b0f09b3ba" Width="500" /> <br/>
 
+# DHCP Configuration on Windows Server/Domain Controller
+
+Now that MDT has been set up, the next thing to work on is the network for PXE boot. First, in the settings for the Windows Server VM, I changed the virtual switch to a private virtual switch. The virtual machine/computer that we will be imaging will also be using this same private virtual switch. By having our virtual machines connected to this private virtual switch, we are creating an isolated network from our external physical network. <br/>
+<img src="https://github.com/user-attachments/assets/29267b3d-d499-4d66-8f11-42091cd83894" Width="500" /> <br/>
+Doing so will allow a computer performing PXE boot to pick up an IP address from our Windows Server machine which will act as a DHCP server, AND allow the PC to communicate with the Domain Controller **directly**. Otherwise, using the external virtual switch means that our virtual machines will be receiving/communicating through the DHCP server in our real-world physical network instead, which causes issues with machines not being able to join the domain during the imaging process. <br/>
+
+Before I can setup a DHCP server on our Windows Server machine, I need to assign a static IP address to the Windows Server machine first. For this project, I have decided on a Class B IP address. My IP configuration for the Windows Server is below: <br/>
+<img src="https://github.com/user-attachments/assets/9b768913-a9a7-4174-ba78-f64e25ac65c3" Width="500" /> <br/>
+Note that since I am  only using one Domain Controller for this project, I have set the DNS to 127.0.0.1, a loopback address. This allows the Domain Controller to resolve its own address/hostname, and at the same time, keeping address resolutions local.
+
+With a static address assigned to the Windows Server/Domain Controller machine, we can finally set up the DHCP sever on this machine. Because this Windows Server machine's subnet is 255.255.0.0, our DHCP scope should contain 172.16.x.x in the first two octets. 
+To set up DHCP:
+1. Install the DHCP Server role through Server Manager if you have yet to do so
+2. Once you do so, launch the DHCP Server too. You should see something akin to the following image:
+3. Right-click on `IPv4` and select to create a new scope. This should open up the New Scope Wizard. Simply click `Next`.
+4. In the `Scope Name` page, give your scope a name and description. I gave it a name of `Arasaka Scope`, but left the description blank.
+5. In the `IP Address Range` page, define the IP Address range for this scope. These are the addresses that computers connecting to the domain will be assigned. My IP Address range for this scope will be 172.16.1.1 through 172.16.1.254 with a subnet mask of 255.255.0.0.
+6. In the `Add Exclusions and Delay` page, designate any IP Addresses that you do not want to DHCP server to assign to any computer. I have added 172.16.1.1, which is an address used for the default gateway.
+7. In the `Lease Duration` page, designate how long an IP Address will be leased to a computer. I have left it at 8 days.
+8. In the `Configure DHCP Options` page, select `Yes` to configure DHCP options and click `Next`.
+9. In the `Router (Default Gateway)` page, designate the gateway address that your DHCP clients will use.
+10. In the `Domain Name and DNS Servers` page, this should have autofilled in the name of your domain and the IP address of your domain controller. If it wasn't autofill, enter in the name of your domain and the IP address of your domain controller and click `Next`.
+11. In the `WINS Server` page, you can simply click next.
+12. In the `Activate Scope` page, select to activate scope and click `Next`.
+13. Click `Finish` and your DHCP scope should be setup and active.
