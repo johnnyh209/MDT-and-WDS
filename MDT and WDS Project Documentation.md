@@ -77,7 +77,7 @@ Installing Windows Assessment and Deployment Kit Windows Preinstallation Environ
 
 # DHCP Configuration on Windows Server/Domain Controller
 
-Now that MDT has been set up, the next thing to work on is the network for PXE boot. First, in the settings for the Windows Server VM, I changed the virtual switch to a private virtual switch. The virtual machine/computer that we will be imaging will also be using this same private virtual switch. By having our virtual machines connected to this private virtual switch, we are creating an isolated network from our external physical network. <br/>
+Now that MDT has been set up, the next thing to work on is the network for PXE boot. First, in the settings for the Windows Server VM, I changed the **external** virtual switch to a **private** virtual switch. The virtual machine/computer that we will be imaging will also be using this same private virtual switch. By having our virtual machines connected to this private virtual switch, we are creating an isolated network from our external physical network. <br/>
 <img src="https://github.com/user-attachments/assets/29267b3d-d499-4d66-8f11-42091cd83894" Width="500" /> <br/>
 Doing so will allow a computer performing PXE boot to pick up an IP address from our Windows Server machine which will act as a DHCP server, AND allow the PC to communicate with the Domain Controller **directly**. Otherwise, using the external virtual switch means that our virtual machines will be receiving/communicating through the DHCP server in our real-world physical network instead, which causes issues with machines not being able to join the domain during the imaging process. <br/>
 
@@ -100,3 +100,26 @@ To set up DHCP:
 11. In the `WINS Server` page, you can simply click next.
 12. In the `Activate Scope` page, select to activate scope and click `Next`.
 13. Click `Finish` and your DHCP scope should be setup and active.
+
+# Deployment Workbench
+
+## Creating a New Deployment Share
+With everything setup, it is time to finally configure out Windows image. We will first be working with Deployment Workbench (MDT), so go ahead and open that on your Windows Server machine. It should look like the following: <br/>
+[insert image] <br/>
+
+1. On the left-most column of Deployment Workbench, right-click on `Deployment Shares` and click on `New Deployment Share`. This should open up the `New Deployment Share Wizard`.
+2. In the `Path` page, determine where you want your deployment share to be stored in. I left it as default.
+3. In the `Share` page, determine a name for your deployment share. Again, I left it as default.
+4. In the `Descriptive Name` page, give your deployment share a description. I also left this as default.
+5. In the `Options` page, enable or disable any of the wizard panes listed (this can be configured again later after the deployment share has been made).
+6. Review the summary page, and execute the creation of this deployment share if everything looks good to you.
+7. Once everything is finished, you should see new directories on the left column of Deployment Workbench like in the following screenshot.
+
+## Import Operating System
+Once the deployment share has been created, we will proceed to add an operating system to this deployment share. I will be using a Windows 10 iso file for this project.
+
+1. Back on the `Deployment Workbench` homepage, on the left column, right-click on `Operating System` and then click on `Import Operating System`. This will open the `Import Operating System Wizard`.
+2. In the `OS Type` page, select which type of files you will be using to import your operating system. I will be going with `Full set of source files`.
+3. Before we proceed, we will need to mount the iso/disc image file of Windows 10. So, locate that on our local drive, right-click it, and then click on `Mount`. This will add it as a new drive with its own drive letter that you can easily see in Windows Explorer. For me, the iso file mounted as an E: drive
+4. Back to the OS import wizard, move to the next page, the `Source` page. Click on `Browse...` which will open up a new window for you to select the location for where the OS source file is stored. Since ours is the E: drive, I selected just that.
+5. After doing so, you will be moved to the `Destination` page.
