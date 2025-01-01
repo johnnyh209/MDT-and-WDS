@@ -9,6 +9,7 @@ Through Server Manager, I have also installed Windows Deployment Services and DH
 - [The MDT installation package](https://www.microsoft.com/en-us/download/details.aspx?id=54259)
 - [ADK for Windows 10, version 1903](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install)
 - 7-Zip (which will be added to the Windows installation image that we will generate using MDT so that it can be installed during imaging)
+  - Note that I also created a folder and placed the installer in it. This folder/directory will be used to add to our Windows image later on.
 
 # Microsoft Deployment Toolkit (MDT) Setup
 
@@ -122,4 +123,20 @@ Once the deployment share has been created, we will proceed to add an operating 
 2. In the `OS Type` page, select which type of files you will be using to import your operating system. I will be going with `Full set of source files`.
 3. Before we proceed, we will need to mount the iso/disc image file of Windows 10. So, locate that on our local drive, right-click it, and then click on `Mount`. This will add it as a new drive with its own drive letter that you can easily see in Windows Explorer. For me, the iso file mounted as an E: drive
 4. Back to the OS import wizard, move to the next page, the `Source` page. Click on `Browse...` which will open up a new window for you to select the location for where the OS source file is stored. Since ours is the E: drive, I selected just that.
-5. After doing so, you will be moved to the `Destination` page.
+5. After doing so, you will be moved to the `Destination` page. Here, you will designate a name for the directory that the OS files will be placed in. I named mine `Windows 10 x64`.
+6. Review the summary and execute the action.
+7. Once execution finishes, and you close the wizard, head back to the Operating Systems directory for Deployment Workbench and you will see the operating systems you have imported.
+
+## Add Application
+Remember at the beginning of this documentation where I installed the .msi version of the 7-Zip installer and put it in its own folder named `7-zip`? That's becomes relevant now, as I add applications to this Windows image that will be installed during the imaging process.
+
+1. On the homepage of Deployment Workbench, right-click on `Applications` located on the left column, and click on `New Application`. This opens the `New Application Wizard`.
+2. On the `Application Type` page, select the most appropriate option that applies to you. Since I have the full source file for 7-Zip, I chose `Application with source files`.
+3. In the `Details` page, fill out however much you can. Every box is optional except Application Name.
+4. In the `Source` page, click on `Browse...` and select the directory where you application is stored. Mine is the 7-Zip folder I created at the beginning that contains the msi installer for the program.
+5. In the `Destination` page, designate a name for the directory that will be created. I named mine `7-Zip`.
+6. In the `Command Details` page, enter in the command that will be run during the imaging process to install the application. Since my 7-Zip installer is an msi file, I will be using the `msiexec.exe` command. The full command I entered is `msiexec.exe /i 7z2409-x64 /q`. The `/i` parameter indicates that it will run as a normal installation and the `/q` parameter specifies that a user intervention will not be needed. The `7z2409-x64` is the name of the installer that will be run by the msiexec command.
+7. Review the summary, and execute.
+8. Once done, on the Application page of Deployment Workbench, you should see the application listed that you have just added.
+
+## Task Sequence
