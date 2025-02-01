@@ -91,15 +91,15 @@ To set up DHCP:
 1. Install the DHCP Server role through Server Manager if you have yet to do so
 2. Once you do so, launch the DHCP Server too. You should see something akin to the following image:
 3. Right-click on `IPv4` and select to create a new scope. This should open up the New Scope Wizard. Simply click `Next`.
-4. In the `Scope Name` page, give your scope a name and description. I gave it a name of `Arasaka Scope`, but left the description blank.
-5. In the `IP Address Range` page, define the IP Address range for this scope. These are the addresses that computers connecting to the domain will be assigned. My IP Address range for this scope will be 172.16.1.1 through 172.16.1.254 with a subnet mask of 255.255.0.0.
-6. In the `Add Exclusions and Delay` page, designate any IP Addresses that you do not want to DHCP server to assign to any computer. I have added 172.16.1.1, which is an address used for the default gateway.
-7. In the `Lease Duration` page, designate how long an IP Address will be leased to a computer. I have left it at 8 days.
-8. In the `Configure DHCP Options` page, select `Yes` to configure DHCP options and click `Next`.
-9. In the `Router (Default Gateway)` page, designate the gateway address that your DHCP clients will use.
-10. In the `Domain Name and DNS Servers` page, this should have autofilled in the name of your domain and the IP address of your domain controller. If it wasn't autofill, enter in the name of your domain and the IP address of your domain controller and click `Next`.
-11. In the `WINS Server` page, you can simply click next.
-12. In the `Activate Scope` page, select to activate scope and click `Next`.
+4. On the `Scope Name` page, give your scope a name and description. I gave it a name of `Arasaka Scope`, but left the description blank.
+5. On the `IP Address Range` page, define the IP Address range for this scope. These are the addresses that computers connecting to the domain will be assigned. My IP Address range for this scope will be 172.16.1.1 through 172.16.1.254 with a subnet mask of 255.255.0.0.
+6. On the `Add Exclusions and Delay` page, designate any IP Addresses that you do not want to DHCP server to assign to any computer. I have added 172.16.1.1, which is an address used for the default gateway.
+7. On the `Lease Duration` page, designate how long an IP Address will be leased to a computer. I have left it at 8 days.
+8. On the `Configure DHCP Options` page, select `Yes` to configure DHCP options and click `Next`.
+9. On the `Router (Default Gateway)` page, designate the gateway address that your DHCP clients will use.
+10. On the `Domain Name and DNS Servers` page, this should have autofilled in the name of your domain and the IP address of your domain controller. If it wasn't autofill, enter in the name of your domain and the IP address of your domain controller and click `Next`.
+11. On the `WINS Server` page, you can simply click next.
+12. On the `Activate Scope` page, select to activate scope and click `Next`.
 13. Click `Finish` and your DHCP scope should be setup and active.
 
 # Deployment Workbench
@@ -109,10 +109,10 @@ With everything setup, it is time to finally configure out Windows image. We wil
 [insert image] <br/>
 
 1. On the left-most column of Deployment Workbench, right-click on `Deployment Shares` and click on `New Deployment Share`. This should open up the `New Deployment Share Wizard`.
-2. In the `Path` page, determine where you want your deployment share to be stored in. I left it as default.
-3. In the `Share` page, determine a name for your deployment share. Again, I left it as default.
-4. In the `Descriptive Name` page, give your deployment share a description. I also left this as default.
-5. In the `Options` page, enable or disable any of the wizard panes listed (this can be configured again later after the deployment share has been made).
+2. On the `Path` page, determine where you want your deployment share to be stored in. I left it as default.
+3. On the `Share` page, determine a name for your deployment share. Again, I left it as default.
+4. On the `Descriptive Name` page, give your deployment share a description. I also left this as default.
+5. On the `Options` page, enable or disable any of the wizard panes listed (this can be configured again later after the deployment share has been made).
 6. Review the summary page, and execute the creation of this deployment share if everything looks good to you.
 7. Once everything is finished, you should see new directories on the left column of Deployment Workbench like in the following screenshot.
 
@@ -120,7 +120,7 @@ With everything setup, it is time to finally configure out Windows image. We wil
 Once the deployment share has been created, we will proceed to add an operating system to this deployment share. I will be using a Windows 10 iso file for this project.
 
 1. Back on the `Deployment Workbench` homepage, on the left column, right-click on `Operating System` and then click on `Import Operating System`. This will open the `Import Operating System Wizard`.
-2. In the `OS Type` page, select which type of files you will be using to import your operating system. I will be going with `Full set of source files`.
+2. On the `OS Type` page, select which type of files you will be using to import your operating system. I will be going with `Full set of source files`.
 3. Before we proceed, we will need to mount the iso/disc image file of Windows 10. So, locate that on our local drive, right-click it, and then click on `Mount`. This will add it as a new drive with its own drive letter that you can easily see in Windows Explorer. For me, the iso file mounted as an E: drive
 4. Back to the OS import wizard, move to the next page, the `Source` page. Click on `Browse...` which will open up a new window for you to select the location for where the OS source file is stored. Since ours is the E: drive, I selected just that.
 5. After doing so, you will be moved to the `Destination` page. Here, you will designate a name for the directory that the OS files will be placed in. I named mine `Windows 10 x64`.
@@ -132,11 +132,43 @@ Remember at the beginning of this documentation where I installed the .msi versi
 
 1. On the homepage of Deployment Workbench, right-click on `Applications` located on the left column, and click on `New Application`. This opens the `New Application Wizard`.
 2. On the `Application Type` page, select the most appropriate option that applies to you. Since I have the full source file for 7-Zip, I chose `Application with source files`.
-3. In the `Details` page, fill out however much you can. Every box is optional except Application Name.
-4. In the `Source` page, click on `Browse...` and select the directory where you application is stored. Mine is the 7-Zip folder I created at the beginning that contains the msi installer for the program.
-5. In the `Destination` page, designate a name for the directory that will be created. I named mine `7-Zip`.
-6. In the `Command Details` page, enter in the command that will be run during the imaging process to install the application. Since my 7-Zip installer is an msi file, I will be using the `msiexec.exe` command. The full command I entered is `msiexec.exe /i 7z2409-x64 /q`. The `/i` parameter indicates that it will run as a normal installation and the `/q` parameter specifies that a user intervention will not be needed. The `7z2409-x64` is the name of the installer that will be run by the msiexec command.
+3. On the `Details` page, fill out however much you can. Every box is optional except Application Name.
+4. On the `Source` page, click on `Browse...` and select the directory where you application is stored. Mine is the 7-Zip folder I created at the beginning that contains the msi installer for the program.
+5. On the `Destination` page, designate a name for the directory that will be created. I named mine `7-Zip`.
+6. On the `Command Details` page, enter in the command that will be run during the imaging process to install the application. Since my 7-Zip installer is an msi file, I will be using the `msiexec.exe` command. The full command I entered is `msiexec.exe /i 7z2409-x64 /q`. The `/i` parameter indicates that it will run as a normal installation and the `/q` parameter specifies that a user intervention will not be needed. The `7z2409-x64` is the name of the installer that will be run by the msiexec command.
 7. Review the summary, and execute.
 8. Once done, on the Application page of Deployment Workbench, you should see the application listed that you have just added.
 
 ## Task Sequence
+
+We will next set up the task sequence, which is a set of predetermined instructions for how Windows will be deployed (it pretty much automates the process of installing Windows).
+
+1. On the homepage of Deployment Workbench, right-click on `Task Sequences` on the left column, and click on `New Task Sequence`. This opens up the `New Task Sequence Wizard`.
+2. On the `General Settings` page, designate a task sequence ID and task sequence name. I opted for something simple, going with Win10 and Windows 10 Installation respectively.
+3. On the `Select Template` page, choose a task sequence template. I opted for the Standard Task Sequence Client template.
+4. On the `Select OS` page, select the Windows version you want to use/install. What you will see here depends on the operating system files imported to the Deployment Workbench earlier. I chose Windows 10 Pro.
+5. On the `Specify Product Key` page, choose the most appropriate choice that suits your situation. As this is nothing more than a test environment, I am not specifying any product keys.
+6. On the `OS Settings` page, fill out each text box.
+7. On the `Admin Password` page, choose whether to setup a local admin password.
+8. Review the summary and complete the set up.
+9. Once the process is complete, you should see the task sequence listed on Deployment Workbench.
+
+## Deployment Share Properties
+
+Now that we have imported our operating system, added applications to be downloaded during the imaging process, and created our task sequence, it is time to finalize our deployment share.
+
+1. On on the homepage of Deployment Workbench, right-click on `MDT Deployment Share`, and click on `Properties`. This opens up the properties window for our deployment share.
+2. On the `General` tab, you can uncheck the x86 box. Doing so, however, means that your deployment will not work on x86 systems (which at this point in time, majority of systems should already be x64.
+3. On the `Rules` tab, it contains a list of instructions and parameters that MDT will adhere to such as skipping Bitlocker encryption during imaging. This is commonly known as the customsettings.ini file. I set mine up as such:
+4. After configuring your rules, click on the `Edit Bootstrap.ini` button on the bottom right corner. Bootstrap.ini file is very similar to the customsettings.ini file, except that it is processed first when you launch into WinPE during the imaging process. I believe it is best to keep bootstrap.ini as simple as possible because anytime changes are made, you have generate a new installation media of your deployment share. Mine is the following:
+5. On the `Windows PE` tab, I have opted to generate an iso/installation media.
+
+With that, we can click `Apply` and then `Ok` to close the Properties window.
+
+## Generating Boot Media
+
+Now that everything is set and done, we want to create our boot media.
+
+1. On on the homepage of Deployment Workbench, right-click on `MDT Deployment Share`, and click on `Update Deployment Share`. This opens the `Update Deployment Share` window.
+2. On the `Options` page, you have 2 options: 1) to add any changes you have made to an already generated boot media, or 2) generate a completely new boot media. I chose the latter.
+3. Review the summary, and generate your boot media
