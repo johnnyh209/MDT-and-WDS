@@ -15,3 +15,9 @@ Now that the server has been configured, you should see 5 new directories like s
 
 ## Adding Boot Image
 
+This step is where we will be adding a boot image to our WDS server.
+
+1. Right click on `Boot Images` and then click on `Add Boot Image...`. This opens the `Add Image Wizard`.
+2. On the `Image File` page, click on the `Browse...` button to select the file path for the boot image you want to add to the WDS server. This image will be the boot media that we generated earlier from the Deployment Workbench.
+3. On the `Image Metadata` page, give your image a name and description. Since this is merely a test environment, I have left it autofilled.
+4. On the `Summary` page, review everything and then click `Next` to add the image/boot media to the WDS server.
