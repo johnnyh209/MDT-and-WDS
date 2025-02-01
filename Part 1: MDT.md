@@ -172,3 +172,13 @@ Now that everything is set and done, we want to create our boot media.
 1. On on the homepage of Deployment Workbench, right-click on `MDT Deployment Share`, and click on `Update Deployment Share`. This opens the `Update Deployment Share` window.
 2. On the `Options` page, you have 2 options: 1) to add any changes you have made to an already generated boot media, or 2) generate a completely new boot media. I chose the latter.
 3. Review the summary, and generate your boot media
+
+## Server Properties
+
+With the boot image added to our deployment server, there is one more thing that needs to be done, which is to indicate that this Windows Server machine is also a PXE server.
+To do so:
+1. Right-click on our server on the left-hand column of the WDS homepage and click on `Properties`.
+2. Go to the `DHCP` tab. Since we have set up DHCP on this Windows Server, we need to check both of the check boxes.
+3. Click on `Apply` and then `Ok`.
+
+By doing so, if you open up DHCP on the Windows Server machine, and go to `Scope Options`, you will notice a new option has been added: `060 PXEClient`.
