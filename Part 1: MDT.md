@@ -278,16 +278,3 @@ Now that everything is set and done, we want to create our boot media.
 ![86  Update Deployment Share Part 3](https://github.com/user-attachments/assets/b5d35df5-34be-4c46-9241-02219bcf3861)
 ![87  Update Deployment Share Part 4](https://github.com/user-attachments/assets/7651d3f3-a8d2-42c0-b941-3ae12a659e37)
 ![88  Update Deployment Share part 5](https://github.com/user-attachments/assets/85170420-d102-4cea-93ce-80d5f9217c9a)
-
-## Server Properties
-
-With the boot image added to our deployment server, there is one more thing that needs to be done, which is to indicate that this Windows Server machine is also a PXE server.
-
-To do so:
-1. Right-click on our server on the left-hand column of the WDS homepage and click on `Properties`.
-
-2. Go to the `DHCP` tab. Since we have set up DHCP on this Windows Server, we need to check both of the check boxes.
-
-3. Click on `Apply` and then `Ok`.
-
-By doing so, if you open up DHCP on the Windows Server machine, and go to `Scope Options`, you will notice a new option has been added: `060 PXEClient`.
