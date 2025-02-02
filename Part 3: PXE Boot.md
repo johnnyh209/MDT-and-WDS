@@ -18,14 +18,14 @@ This final part will be imaging a system using PXE Boot. Since I am using a virt
 
 6. Once done, the installation process begins.
 
-7. Once installation has finished, you will be on the desktop of Windows and presented with a deplopyment summary. The entire process was successful, and thus had 0 errors or warnings presented in the summary.
-![7  Getting Ready](https://github.com/user-attachments/assets/9480e521-62c6-44a1-92aa-af11e4fbe98e)
-![8  Finished Installing](https://github.com/user-attachments/assets/83b53c9b-8849-41a6-9838-5a48b50112f5)
+7. Once installation has finished, you will be on the desktop of Windows and presented with a deplopyment summary. The entire process was successful, and thus had 0 errors or warnings presented in the summary. <br/>
+<img src="https://github.com/user-attachments/assets/9480e521-62c6-44a1-92aa-af11e4fbe98e" Width="500" />
+<img src="https://github.com/user-attachments/assets/83b53c9b-8849-41a6-9838-5a48b50112f5" Width="500" /> <br/>
 
 ## Confirming System Is In Domain
-1. Checking the network, our newly imaged system is in our domains' network, ARASAKA.local. Also, 7Zip has been installed during the process as well.
-![10  Part of Domain](https://github.com/user-attachments/assets/4c171e52-dc78-416d-b17a-24ef09d55aa5)
-![12  App Installed](https://github.com/user-attachments/assets/22d562a0-6506-4277-98d9-a2974ac7bc85)
+1. Checking the network, our newly imaged system is in our domains' network, ARASAKA.local. Also, 7Zip has been installed during the process as well. <br/>
+<img src="https://github.com/user-attachments/assets/4c171e52-dc78-416d-b17a-24ef09d55aa5" Width="500" />
+<img src="https://github.com/user-attachments/assets/22d562a0-6506-4277-98d9-a2974ac7bc85" Width="500" /> <br/>
 
-2. Checking Active Directory Users and Computers, we see that the system has been added to the OU we designated in our Customesettings.ini file.
-![11  Checking AD](https://github.com/user-attachments/assets/2289cc44-c070-4bdf-9d31-d9723ecba040)
+2. Checking Active Directory Users and Computers, we see that the system has been added to the OU we designated in our Customesettings.ini file. <br/>
+<img src="https://github.com/user-attachments/assets/2289cc44-c070-4bdf-9d31-d9723ecba040" Width="500" /> <br/>
