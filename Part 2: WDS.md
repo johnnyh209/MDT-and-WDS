@@ -21,3 +21,16 @@ This step is where we will be adding a boot image to our WDS server.
 2. On the `Image File` page, click on the `Browse...` button to select the file path for the boot image you want to add to the WDS server. This image will be the boot media that we generated earlier from the Deployment Workbench.
 3. On the `Image Metadata` page, give your image a name and description. Since this is merely a test environment, I have left it autofilled.
 4. On the `Summary` page, review everything and then click `Next` to add the image/boot media to the WDS server.
+
+## Server Properties
+
+With the boot image added to our deployment server, there is one more thing that needs to be done, which is to indicate that this Windows Server machine is also a PXE server.
+
+To do so:
+1. Right-click on our server on the left-hand column of the WDS homepage and click on `Properties`.
+
+2. Go to the `DHCP` tab. Since we have set up DHCP on this Windows Server, we need to check both of the check boxes.
+
+3. Click on `Apply` and then `Ok`.
+
+By doing so, if you open up DHCP on the Windows Server machine, and go to `Scope Options`, you will notice a new option has been added: `060 PXEClient`.
